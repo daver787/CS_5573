@@ -1,0 +1,43 @@
+#passRandomDraw_q3
+#We will again rewrite the first example code "passRandomDraw.py". This time write
+#the program so that each process i sends a random draw to process i+1. The process
+#with the highest number will send to the root process.
+#Notice that we are communicating in a ring. For communication, only use Send and Recv.
+#The program should work for any number of processes. (Hint: Remember that Send and Recv
+#are blocking functions. Because each process will be sending and receiving,if every process calls
+#its Recv first,the program will hang.What about if each calls Send?)
+#run using mpiexec -n <number of processes> python3 passRandomDraw_q3.py <number of processes>
+
+import numpy
+from mpi4py import MPI
+import sys
+
+comm=MPI.COMM_WORLD
+rank=comm.Get_rank()
+size=comm.Get_size()
+
+n=int(sys.argv[1])
+
+for i in range(0,size-1):
+    if rank==i:
+        randNum = numpy.random.random_sample(1)
+        print ("Process", rank, "drew the number", randNum)
+        comm.Send(randNum, dest=i+1)
+
+
+
+    if (rank==i+1):
+        print ("Process", rank, "before receiving has the number",randNum)
+        comm.Recv(randNum,source=i)
+        print("Process",rank,"received the number",randNum)
+
+
+if rank ==size-1:
+    randNum = numpy.random.random_sample(1)
+    print("Process",rank,"drew the number",randNum)
+    comm.Send(randNum,dest=0)
+
+if rank==0:
+    print("Process",rank,"before receiving has the number",randNum)
+    comm.Recv(randNum,source=size-1)
+    print("Process",rank,"received the number",randNum)
