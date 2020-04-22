@@ -1,2 +1,1 @@
-this is our project readme. Testing Git12345
-.
+this is our project readme. Testing Git1234567.
