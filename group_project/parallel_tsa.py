@@ -53,8 +53,8 @@ store_2_df=store_2_df.rename(columns={'store_revenue':'y'}).drop(columns='store_
 stores=[store_1_df,store_2_df]
 
 if rank==0:
-	for i in range(2)
-	comm.send(stores[i],dest=i+1)
+	for i in range(2):
+		comm.send(stores[i],dest=i+1)
 
 else:
      stores=comm.recv(source=0)
