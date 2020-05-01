@@ -49,10 +49,10 @@ if rank==0:
     store_2_df=store_2_df.rename(columns={'store_revenue':'y'}).drop(columns='store_id')
     stores=[store_1_df,store_2_df]
     for i in range(2):
-         comm.Send(stores[i],dest=i+1)
+         comm.send(stores[i],dest=i+1)
 
 else:
-     stores=comm.Recv(source=0)
+     stores=comm.recv(source=0)
      m=Prophet()
      m.fit(stores)
      future=m.make_future_dataframe(periods=30)
