@@ -53,10 +53,11 @@ if rank==0:
 
 else:
      stores=comm.recv(source=0)
-     m=Prophet()
-     m.fit(stores)
-     future=m.make_future_dataframe(periods=30)
-     forecast=m.predict(future)
-     fig1=m.plot(forecast)
-     plt.show()
+     print(stores.head())
+     #m=Prophet()
+     #m.fit(stores)
+     #future=m.make_future_dataframe(periods=30)
+     #forecast=m.predict(future)
+     #fig1=m.plot(forecast)
+     #plt.show()
 
