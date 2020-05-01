@@ -8,7 +8,7 @@ from fbprophet import Prophet
 
 #imports for MPI
 from mpi4py import MPI
-comm = MPI.COMM_WORLD()
+comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 
 
