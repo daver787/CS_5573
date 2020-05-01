@@ -12,49 +12,44 @@ comm = MPI.COMM_WORLD()
 rank = comm.Get_rank()
 
 
-#make connection to the database
-mydb=mysql.connector.connect(
-	host="localhost",
-	database="sakila",
-	user="root",
-	passwd="clearlab")
-
-#sql query to bring in store data at daily level
-sql_query="""
-select
-date(p.payment_date)as payment_date, 
-st.store_id,
-sum(p.amount) as store_revenue
-from store as s
-inner join staff as st on s.store_id=st.store_id
-inner join payment as p on st.staff_id=p.staff_id
-where year(cast(p.payment_date as date))=2005
-group by st.store_id,date(payment_date)
-;"""
-
-#create dataframe to hold the data using pandas
-store_df=pd.read_sql(sql_query,con=mydb)
-
-#convert date column to datetime object and drop previous date column
-store_df['ds']=pd.to_datetime(store_df['payment_date'])
-store_df.drop(columns='payment_date',inplace=True)
-
-#seperate the stores to fit different TSA model to each one.
-store_1_df=store_df[store_df['store_id']==1]
-store_2_df=store_df[store_df['store_id']==2]
-#print(store_1_df.info())
-#print(store_2_df.info())
-
-#set the index to be the date column for input into fbprophet model
-store_1_df=store_1_df.rename(columns={'store_revenue':'y'}).drop(columns='store_id')
-store_2_df=store_2_df.rename(columns={'store_revenue':'y'}).drop(columns='store_id')
-
-
-stores=[store_1_df,store_2_df]
-
 if rank==0:
-	for i in range(2):
-		comm.Send(stores[i],dest=i+1)
+     #make connection to the database
+    mydb=mysql.connector.connect(
+     host="localhost",
+     database="sakila",
+     user="root",
+     passwd="clearlab")
+
+    #sql query to bring in store data at daily level
+    sql_query="""
+    select
+    date(p.payment_date)as payment_date, 
+    st.store_id,
+    sum(p.amount) as store_revenue
+    from store as s
+    inner join staff as st on s.store_id=st.store_id
+    inner join payment as p on st.staff_id=p.staff_id
+    where year(cast(p.payment_date as date))=2005
+    group by st.store_id,date(payment_date)
+    ;"""
+
+     #create dataframe to hold the data using pandas
+    store_df=pd.read_sql(sql_query,con=mydb)
+
+    #convert date column to datetime object and drop previous date column
+    store_df['ds']=pd.to_datetime(store_df['payment_date'])
+    store_df.drop(columns='payment_date',inplace=True)
+
+    #seperate the stores to fit different TSA model to each one.
+    store_1_df=store_df[store_df['store_id']==1]
+    store_2_df=store_df[store_df['store_id']==2]
+
+    #set the index to be the date column for input into fbprophet model
+    store_1_df=store_1_df.rename(columns={'store_revenue':'y'}).drop(columns='store_id')
+    store_2_df=store_2_df.rename(columns={'store_revenue':'y'}).drop(columns='store_id')
+    stores=[store_1_df,store_2_df]
+    for i in range(2):
+         comm.Send(stores[i],dest=i+1)
 
 else:
      stores=comm.Recv(source=0)
