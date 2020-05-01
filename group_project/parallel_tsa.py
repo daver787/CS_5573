@@ -58,4 +58,4 @@ else:
      future=m.make_future_dataframe(periods=30)
      forecast=m.predict(future)
      forecast[['ds','yhat']].to_csv('test.csv')
-
+     #consider writing to table in sql
