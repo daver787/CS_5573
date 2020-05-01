@@ -53,7 +53,7 @@ if rank==0:
 
 else:
      stores=comm.recv(source=0)
-     print(stores.head())
+     print(stores.head(),rank)
      #m=Prophet()
      #m.fit(stores)
      #future=m.make_future_dataframe(periods=30)
