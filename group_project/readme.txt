@@ -302,7 +302,6 @@ https://www.tableau.com/academic/students
 It is going to ask for some general information. I suggest using your school 
 email that way it can verify that you are a student correctly. You will then be 
 sent instructions and a license code on how to Install Tableau to your desktop.
-This 
 
 If you are running on linux, you will either have to VM or run it in a container
 since it only can run either on Windows or Mac. 
