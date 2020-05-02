@@ -52,15 +52,15 @@ if rank==0:
          comm.send(stores[i],dest=i+1)
 
 else:
-     from sqlalchemy import create_engine
-     engine=create_engine("mysql+pymysql://{user}:{pw}@localhost/{db}"
-        .format(user="root",pw="clearlab",db="sakila")
      stores=comm.recv(source=0)
+     from sqlalchemy import create_engine
+     import pymysql
+     engine=create_engine("mysql+pymysql://{user}:{pw}@localhost/{db}".format(user="root",pw="clearlab",db="sakila"))
      m=Prophet()
      m.fit(stores)
      future=m.make_future_dataframe(periods=30)
      forecast=m.predict(future)
      forecast['store_id']=rank
-     forecast.rename(columns={"ds":"payment_date",'yhat':'store_revenue'})
-     forecast[['payment_date','store_id','payment_date']].to_sql('store_forecast',con=engine,if_exists='append')
+     forecast.rename(columns={"ds":"payment_date",'yhat':'store_revenue'},inplace=True)
+     forecast[['payment_date','store_id','store_revenue']].to_sql('store_forecast',con=engine,if_exists='append')
      #consider writing to table in sql
