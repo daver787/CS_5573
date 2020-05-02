@@ -276,3 +276,35 @@ You can download it for your respective operating system following this link.
 https://dev.mysql.com/downloads/workbench/
 
 ********************************************************************************
+
+Once sakila has been installed, we need to download Prophet. Prophet is the 
+python library we will be using to input the dataframes we get from Sakila that 
+is going to help us forecast future sales revenue along with some other packages 
+that we need to run our code. Input these commands into your terminal. 
+
+--------------------------------------------------------------------------------
+
+MPI User shell> pip install prophet
+
+MPI User shell> pip install pymysql 
+
+MPI User shell> pip install sqlaclchemy 
+
+--------------------------------------------------------------------------------
+
+Now we need to install Tableau, unfortunately Tableau public is not able to 
+connect to the mySQL database, we actually need the professional version in 
+order to do that. Fortunately though we can get full access for a year as 
+students. Below is a link to that. 
+
+https://www.tableau.com/academic/students
+
+It is going to ask for some general information. I suggest using your school 
+email that way it can verify that you are a student correctly. You will then be 
+sent instructions and a license code on how to Install Tableau to your desktop.
+This 
+
+If you are running on linux, you will either have to VM or run it in a container
+since it only can run either on Windows or Mac. 
+
+--------------------------------------------------------------------------------
