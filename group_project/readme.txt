@@ -141,7 +141,9 @@ A table like this should show up.
 --------------------------------------------------------------------------------
 
 We are now going to be creating a user to add to this table. Within the single 
-quotes place your own information except for 'localhost'
+quotes place your own information except for 'localhost' and after identified by
+input a password. I suggest using the same password you used for your MPI user
+to keep it simple. 
 
 --------------------------------------------------------------------------------
 
@@ -166,7 +168,7 @@ mysql> update user set plugin="auth_socket" where User='****';
 
 --------------------------------------------------------------------------------
 
-To make sure we have made changes to the user tabole we need to flush the 
+To make sure we have made changes to the user table we need to flush the 
 original privelages, then exit. 
 
 --------------------------------------------------------------------------------
@@ -196,11 +198,36 @@ shell> mysql -u **** -p
 
 --------------------------------------------------------------------------------
 
-?
+You should now be able to use mysql without having to sudo in, just to verify 
+though we can go back into that user table. 
+
+--------------------------------------------------------------------------------
+
+mysql> select user,host,plugin from mysql.user;
+
+--------------------------------------------------------------------------------
+
+The user you have created should show up like so
+
+--------------------------------------------------------------------------------
+
++------------------+-----------+-----------------------+
+| user             | host      | plugin                |
++------------------+-----------+-----------------------+
+| root             | localhost | mysql_native_password |
+| mysql.session    | localhost | mysql_native_password |
+| mysql.sys        | localhost | mysql_native_password |
+| debian-sys-maint | localhost | mysql_native_password |
+| *********        | localhost | mysql_native_password |
++------------------+-----------+-----------------------+
+4 rows in set (0.00 sec)
+
+-------------------------------------------------------------------------------- 
+
 Now that mysql is intalled on our machines, we can proceed to download Sakila 
 which is the fictional database we will be using as the video stores we will be
-fetching the user inquired data from. On your terminal type
-?
+fetching the user inquired data from. On your terminal type.
+
 --------------------------------------------------------------------------------
 
 wget https://downloads.mysql.com/docs/sakila-db.zip
