@@ -69,7 +69,6 @@ forecast_1=m.predict(future_1)
 
 forecast_2=n.predict(future_2)
 
-
 #plot the results of the predicition
 fig1=m.plot(forecast_1)
 fig2=n.plot(forecast_2)

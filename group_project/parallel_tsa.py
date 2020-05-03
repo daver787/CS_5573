@@ -58,7 +58,7 @@ else:
      engine=create_engine("mysql+pymysql://{user}:{pw}@localhost/{db}".format(user="root",pw="clearlab",db="sakila"))
      m=Prophet()
      m.fit(stores)
-     future=m.make_future_dataframe(periods=30)
+     future=m.make_future_dataframe(periods=30,freq='d')
      forecast=m.predict(future)
      forecast['store_id']=rank
      forecast.rename(columns={"ds":"payment_date",'yhat':'store_revenue'},inplace=True)
