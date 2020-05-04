@@ -15,4 +15,4 @@ store_id,
 store_revenue,
 'forecast' AS type
 FROM store_forecast
-where payment_date>'2005-08-23'
+where payment_date>(select max(payment_date)from payment WHERE year(payment_date)=2005)
