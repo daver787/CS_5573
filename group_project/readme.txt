@@ -284,7 +284,7 @@ that we need to run our code. Input these commands into your terminal.
 
 --------------------------------------------------------------------------------
 
-MPI User shell> pip install prophet
+MPI User shell> pip install fbprophet
 
 MPI User shell> pip install pymysql 
 
@@ -307,3 +307,9 @@ If you are running on linux, you will either have to VM or run it in a container
 since it only can run either on Windows or Mac. 
 
 --------------------------------------------------------------------------------
+To run the completed python script type mpiexec -n 3 python3 serial_tsa.py
+From the same folder as your python script.
+
+This will create the table in MySQL for Tableau to pull from.
+
+To see the completed Tableau go to https://public.tableau.com/views/sakila_forecast/Dashboard1?:display_count=y&publish=yes&:origin=viz_share_link
